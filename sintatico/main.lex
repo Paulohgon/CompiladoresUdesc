@@ -1,3 +1,4 @@
+%option noyywrap
 %{
     
     // includes
@@ -7,8 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lde.h"
-
-    
+#include "main.tab.h"
+#define YY_DECL int yylex ()
 nodo * tabela = NULL;
 int id=0;
 int coluna = 1;
@@ -17,19 +18,18 @@ int linhas = 1;
 
 %}
 
-ATRIBUICAO :=
-PONTO .
+ATRIBUICAO ":="
+PONTO "."
 DIGITO [0-9]
 INT {DIGITO}+
 FLOAT {INT}{PONTO}{INT}|{PONTO}{INT}|{INT}{PONTO}
-ID {LETRA}({LETRA}|{DIGITO})*
 LETRA [a-z]
 LETRAM [A-Z]
 PALAVRA [a-z][a-z0-9]*|[A-Z][A-Z0-9]*
 OPAD "+"|"-"|"or"
 OPMUL "*"|"/"|"and"
 ASPAS ["]
-OPRELACIONAL <|>|<=|>=|=|<>
+OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 
 %%
 
@@ -45,11 +45,7 @@ OPRELACIONAL <|>|<=|>=|=|<>
     return T_VIRGULA;
 }
 
-{ID} {
-    tabela = insere_nodo_fim("id", yytext, tabela, coluna, linhas);
-    coluna += strlen(yytext);
-    return T_ID;
-}
+
 
 {OPMUL} {
     tabela = insere_nodo_fim("opmul", yytext, tabela, coluna, linhas);
@@ -286,7 +282,7 @@ OPRELACIONAL <|>|<=|>=|=|<>
 {PALAVRA} {
     tabela = insere_nodo_fim("palavra",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
-    return T_PALAVRA;
+    return T_ID;
 }
 
 {ASPAS} {
@@ -296,11 +292,7 @@ OPRELACIONAL <|>|<=|>=|=|<>
 }
 
 
-{LETRAM} {
-    tabela = insere_nodo_fim("letra maiusc",yytext,tabela,coluna,linhas);
-    coluna+=strlen(yytext);
-    return  T_LETRAM;
-}
+
 
 
 [ \t]+ {
@@ -325,12 +317,3 @@ OPRELACIONAL <|>|<=|>=|=|<>
 
 %%
 
-int main(void){
-
-    //tabela = inicializa(id);
-    yyin = fopen( "corrigido.txt", "r" ); // Escrever o codigo no arquivo code.braia
-    yylex();
-    imprime_lista(tabela);
-
-    return 0;
-}
