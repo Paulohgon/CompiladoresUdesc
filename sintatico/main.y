@@ -1,20 +1,32 @@
 %{
-
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "lde.h"
+
+#define GetCurrentDir getcwd
+
+extern  FILE *yyin;
+void yyerror(const char * s);
 
 extern int yylex();
 extern int yyparse();
-extern FILE* yyin;
+int numvariavel =-1;
+void generateFooter();
+void generateHeader();
+void defineVar(char * name, int type);
 
-void yyerror(const char* s);
 %}
 
-%token T_INTEGER
-%token T_REAL
-%token T_FLOAT
+%union{
+    int ival;
+    float fval;
+    char *cval;
+}
+
 %token T_PRINT
-%token T_ID 
 %token T_FECHACHAVE
 %token T_FECHACOLCHETE
 %token T_FECHAPARENTESE
@@ -31,8 +43,6 @@ void yyerror(const char* s);
 %token T_THEN
 %token T_BEGIN
 %token T_END
-%token T_FUNCTION
-%token T_PROCEDURE
 %token T_PONTO
 %token T_PONTO_PONTO
 %token T_PONTOVIRGULA
@@ -40,23 +50,32 @@ void yyerror(const char* s);
 %token T_ABREPARENTESE
 %token T_ABRECOLCHETE
 %token T_ABRECHAVE
-%token T_PALAVRA
 %token T_VIRGULA
-%token T_LETRAM
-%token T_INT
 %token T_UNDERLINE
 %token T_DO
 %token T_RETURN
-%token T_FALSE
-%token T_TRUE
 %token T_VAR
 %token T_WHILE
 %token T_READ
 %token T_FOR
+%token T_PALAVRA
 %token T_BOOLEAN
+%token T_REAL
+%token T_INTEGER
+%token T_ID
+%token T_FLOAT
+%token T_TRUE
+%token T_FALSE
+%token T_INT
+
+
+%type<cval> T_PALAVRA T_BOOLEAN T_REAL T_INTEGER T_ID T_OPAD T_OPMUL T_ATRIBUICAO T_OPRELACIONAL tipoSimples listaIds expressaoSimples
+%type<fval> T_FLOAT
+%type<ival> T_TRUE T_FALSE T_INT intLit
+
 %start programa
 %%
-programa: T_PROGRAM T_ID T_PONTOVIRGULA corpo T_PONTO {printf("Programa\n");}
+programa: T_PROGRAM {generateFooter();} T_ID T_PONTOVIRGULA corpo T_PONTO {generateHeader();}
 ;
 
 corpo: declaracoes comandoComposto {printf("corpo\n");}
@@ -73,7 +92,6 @@ listaComandos: {printf("listaComandos\n");}
 
 comando: atribuicao {printf("comando\n");}
         | condicional   {printf("comando\n");}
-        /* | chamada_procedimento  {printf("comando\n");} */
         | comandoComposto   {printf("comando\n");}
         | comandoFor    {printf("comando\n");}
         | comandoWhile  {printf("comando\n");}
@@ -109,54 +127,45 @@ seletor: seletor T_ABRECOLCHETE expressao T_FECHACOLCHETE       {printf("seletor
         |T_ABRECOLCHETE expressao T_FECHACOLCHETE   {printf("seletor\n");}
         ;
 
-declaracaoVariavel: T_VAR listaIds T_DOISPONTOS tipo   {printf("declaracaoVariavel\n");}
+declaracaoVariavel: T_VAR listaIds T_DOISPONTOS tipoSimples   {printf("\n\n\n");printf($2);printf("\n\n\n");}
 ;
 
-
-/* declaracaoFuncao: T_FUNCTION T_ID T_ABRECOLCHETE declaracaoFuncaoAux T_FECHACOLCHETE T_DOISPONTOS tipoSimples T_PONTOVIRGULA corpo   {printf("declaracaoFuncao\n");}; */
-
-// declaracaoFuncaoAux: listaParametros    {printf("declaracaoFuncaoAux\n");}
-//                     |T_VAZIO    {printf("declaracaoFuncaoAux\n");}
-//                     ;
 
 listaIds: T_ID      {printf("listaIds\n");}
         | listaIds T_VIRGULA T_ID   {printf("listaIds\n");}
         ;
 
 tipo: tipoAgregado  {printf("tipo\n");}
-    | tipoSimples   {printf("tipon");}
+    | tipoSimples   {printf("tipo\n");}
     ;
 
 tipoSimples: T_INTEGER  {printf("tipoSimples\n");}
-            |T_REAL {printf("tipoSimples\n");}
+            |T_REAL {printf("sim\n\n\n");printf($1);printf("\n\n\n");}
             |T_BOOLEAN  {printf("tipoSimples\n");}
             ;
 
-// listaParametros: parametros {printf("listaParametros\n");}
-//                 |listaParametros T_DOISPONTOS parametros    {printf("listaParametros\n");}
-//                 ;
+
 
 tipoAgregado: T_ARRAY T_ABRECOLCHETE literal T_DOISPONTOS literal T_FECHACOLCHETE T_OF tipo     {printf("tipoAgregado\n");}
 ;
 
-// parametros: (T_VAR|T_VAZIO) listaIds T_DOISPONTOS tipoSimples   {printf("parametros\n");}
 
 literal: boolLit    {printf("literal\n");}
         | intLit    {printf("literal\n");}
         | floatLit  {printf("literal\n");}
         ;
 
-boolLit: T_TRUE {printf("boolLit\n");}
-        |T_FALSE    {printf("boolLit\n");}
+boolLit: T_TRUE {}
+        |T_FALSE    {}
         ;
 
-intLit: T_INT   {printf("intLit\n");}
+intLit: T_INT   {saveInt($1);}
 ;
 
 floatLit: T_FLOAT   {printf("floatLit\n");}
 ;
 
-expressaoSimples: expressaoSimples T_OPAD termo {printf("expressaoSimples\n");}
+expressaoSimples: expressaoSimples T_OPAD termo {saveOpadd($2);}
                 | termo     {printf("expressaoSimples\n");}
                 ;
                 
@@ -175,7 +184,8 @@ comandoFor: T_FOR atribuicao expressaoSimples atribuicao T_ABRECHAVE expressao T
 %%
 
 
-int main() {
+
+int main(int argv, char * argc[]) {
 	yyin = stdin;
 
 	do {
@@ -186,6 +196,53 @@ int main() {
 }
 
 void yyerror(const char* s) {
-	fprintf(stderr, "Erro de análise (sintática) %s\n", s);
+	fprintf(stderr, "Erro de análise (sintática): %s\n", s);
 	exit(1);
+}
+
+void generateHeader()
+{   
+    FILE * file = fopen("output.j","w+");
+    fprintf(file,".source %s","outfileName\n");
+	fprintf(file,".class public test\n.super java/lang/Object\n\n"); //code for defining class
+	
+    fprintf(file,".method public <init>()V /n");
+	fprintf(file,"aload_0\n");
+	fprintf(file,"invokenonvirtual java/lang/Object/<init>()V\n");
+	fprintf(file,"return\n");
+	fprintf(file,".end method\n\n");
+
+	fprintf(file,".method public static main([Ljava/lang/String;)V\n");
+	fprintf(file,".limit locals 100\n.limit stack 100\n");
+
+	// /* generate temporal vars for syso*/
+	// defineVar("1syso_int_var",T_INT);
+	// defineVar("1syso_float_var",T_REAL);
+
+	// /*generate line*/
+	// fprintf(file, ".line 1");
+    // fclose(file);
+}
+
+void generateFooter()
+{
+    FILE *file = fopen("output.j","a+");
+	fprintf(file,"\nreturn\n");
+	fprintf(file,".end method\n");
+}
+
+void defineVar(char * name, int type)
+{
+	
+    FILE *file = fopen("output.j","a+");
+    if(type == T_INT)
+    {
+        fprintf("iconst_0\nistore %i ", (numvariavel));
+    }
+    else if ( type == T_FLOAT)
+    {
+        fprintf("fconst_0\nfstore %i", (numvariavel));
+    }
+    //symbTab[name] = make_pair(numvariavel++,(type_enum)type);
+
 }

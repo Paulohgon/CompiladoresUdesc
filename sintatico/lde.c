@@ -3,9 +3,9 @@
 #include <string.h>
 #include "lde.h"
 
+FILE *f;
+
 nodo * inicializa(int id){
-
-
     nodo *l;
     l = (nodo *)malloc(sizeof(nodo));
     l->id = id;
@@ -13,6 +13,7 @@ nodo * inicializa(int id){
     l->ant = NULL;
     l->linha=0;
     l->coluna=0;
+    l->pilha=-1;
     return l;
 }
 
@@ -29,6 +30,7 @@ nodo * insere_nodo_fim(char * tipo, char * token, nodo * l, int col,int linha){
     strcpy(novo->tipo,tipo);
     novo->coluna = col;
     novo->linha=linha;
+    novo->pilha=-1;
 
     if(l == NULL){
         l = novo;
@@ -45,15 +47,6 @@ nodo * insere_nodo_fim(char * tipo, char * token, nodo * l, int col,int linha){
         novo->ant = p;
         novo->id= id;
     }
-    // while (p->prox != NULL){
-    //     p = p->prox;
-    //     id++;
-
-    // }
-    // novo->id= id;
-    // p->prox = novo;
-    // novo->ant = p;
-    //printf("\nID: %d\tTipo: %s\tToken: %s \t linha:%d \t coluna:%d \n", novo->id,novo->tipo,novo->token,novo->linha,novo->coluna);
     return l;
     
 }
@@ -84,4 +77,38 @@ nodo * libera_lst(nodo *l){
     free(p);
 
     return NULL;
+}
+
+void saveInt(int valor){
+    f = fopen("output.j","a+");
+    fprintf(f,"ldc %i",valor);
+}
+
+void loadVar(char * variavel, int indicePilha){
+    f = fopen("output.j","a+");
+    fprintf(f,"iload %s %i", variavel, indicePilha);
+}
+void saveOpadd(char op){
+    f = open("output.j","a+");
+    if(op =='+'){
+        fprintf(f,"iadd\n");
+    }
+    else if(op =='-'){
+        fprintf(f,'isub\n');
+    }else if(op == 'or'){
+        
+    }
+     
+}
+
+void saveOpmul(char op){
+     f = open("output.j","a+");
+    if(op =='*'){
+        fprintf(f,"imul\n");
+    }
+    else if(op =='/'){
+        fprintf(f,'idiv\n');
+    }else if(op == 'and'){
+        
+    }
 }

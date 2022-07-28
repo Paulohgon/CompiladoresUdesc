@@ -1,5 +1,7 @@
 program trabalho;
+    var alo: integer;
+    
     begin
- 
+    alo:=2;
     end
-    .
+.

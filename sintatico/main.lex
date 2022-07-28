@@ -23,9 +23,7 @@ PONTO "."
 DIGITO [0-9]
 INT {DIGITO}+
 FLOAT {INT}{PONTO}{INT}|{PONTO}{INT}|{INT}{PONTO}
-LETRA [a-z]
-LETRAM [A-Z]
-PALAVRA [a-z][a-z0-9]*|[A-Z][A-Z0-9]*
+ID [a-z][a-z0-9]*|[A-Z][A-Z0-9]*
 OPAD "+"|"-"|"or"
 OPMUL "*"|"/"|"and"
 ASPAS ["]
@@ -34,6 +32,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 %%
 
 "_" {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("underline", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_UNDERLINE;
@@ -48,6 +47,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 
 
 {OPMUL} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("opmul", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_OPMUL;
@@ -55,6 +55,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 
 
 {OPAD} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("opad", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_OPAD;
@@ -62,12 +63,14 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 
 
 {FLOAT} {
+    yylval.fval = atof(yytext);
     tabela = insere_nodo_fim("float", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_FLOAT;
 }
 
 {PONTO} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("ponto", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_PONTO;
@@ -134,6 +137,8 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 "real" {
     tabela = insere_nodo_fim("real", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
+    printf("\n\n\nLEXICO %s",yytext);
+    printf("\n\n\n");
     return T_REAL;
 }
 
@@ -162,30 +167,19 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 }
 
 "false" {
+    yylval.ival = 0;
     tabela = insere_nodo_fim("false", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_FALSE;
 }
 
 "true" {
+    yylval.ival = 1;
     tabela = insere_nodo_fim("true", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_TRUE;
 }
 
-
-"function" {
-    tabela = insere_nodo_fim("function", yytext, tabela, coluna, linhas);
-    coluna += strlen(yytext);
-    return T_FUNCTION;
-}
-
-
-"procedure" {
-    tabela = insere_nodo_fim("procedure", yytext, tabela, coluna, linhas);
-    coluna += strlen(yytext);
-    return T_PROCEDURE;
-}
 
 
 "if" {
@@ -262,30 +256,35 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 }
 
 {OPRELACIONAL} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("oprelacional",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_OPRELACIONAL;
 }
 
 {INT} {
+    yylval.ival = atoi(yytext);
     tabela = insere_nodo_fim("inteiro",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_INT;
 }
 
 {ATRIBUICAO} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("atribuicao",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ATRIBUICAO;
 }
 
-{PALAVRA} {
+{ID} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("palavra",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ID;
 }
 
 {ASPAS} {
+    yylval.cval = yytext;
     tabela = insere_nodo_fim("aspas",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ASPAS;
