@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lde.h"
-
+extern nodo *tabela;
+int store = 0;
 FILE *f;
 
 nodo * inicializa(int id){
@@ -81,6 +82,7 @@ nodo * libera_lst(nodo *l){
 
 void saveInt(int valor){
     f = fopen("output.j","a+");
+
     fprintf(f,"ldc %i",valor);
 }
 
@@ -110,5 +112,35 @@ void saveOpmul(char op){
         fprintf(f,'idiv\n');
     }else if(op == 'and'){
         
+    }
+}
+
+int getid(char*id){
+    nodo *novo;
+    novo =tabela;
+    while(novo->prox != NULL){
+        if(strcmp(novo->token,id)==0){
+            return novo -> pilha;
+        }
+        novo=novo->prox;
+    }
+}
+
+void generateAtribui(char* id){
+    int idaux=getid(id);
+    if(idaux ==-1){
+
+    }
+}
+
+
+void getid(char*id,int pilha){
+    nodo *novo;
+    novo =tabela;
+    while(novo->prox != NULL){
+        if(strcmp(novo->token,id)==0){
+            
+        }
+        novo=novo->prox;
     }
 }

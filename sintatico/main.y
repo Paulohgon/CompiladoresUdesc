@@ -3,16 +3,15 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "lde.h"
 
 #define GetCurrentDir getcwd
 
 extern  FILE *yyin;
 void yyerror(const char * s);
-
 extern int yylex();
 extern int yyparse();
+extern nodo *tabela;
 int numvariavel =-1;
 void generateFooter();
 void generateHeader();
@@ -97,7 +96,7 @@ comando: atribuicao {printf("comando\n");}
         | comandoWhile  {printf("comando\n");}
         ;
 
-atribuicao: variavel T_ATRIBUICAO expressao     {printf("atribuicao\n");}
+atribuicao: variavel T_ATRIBUICAO expressao     {}
 ;
 
 declaracoes: {printf("declaracoes\n");}
@@ -159,7 +158,7 @@ boolLit: T_TRUE {}
         |T_FALSE    {}
         ;
 
-intLit: T_INT   {saveInt($1);}
+intLit: T_INT   {tabela=insere_nodo_fim("T_INT",$1,tabela, int 0,int 0)}
 ;
 
 floatLit: T_FLOAT   {printf("floatLit\n");}
@@ -231,18 +230,3 @@ void generateFooter()
 	fprintf(file,".end method\n");
 }
 
-void defineVar(char * name, int type)
-{
-	
-    FILE *file = fopen("output.j","a+");
-    if(type == T_INT)
-    {
-        fprintf("iconst_0\nistore %i ", (numvariavel));
-    }
-    else if ( type == T_FLOAT)
-    {
-        fprintf("fconst_0\nfstore %i", (numvariavel));
-    }
-    //symbTab[name] = make_pair(numvariavel++,(type_enum)type);
-
-}

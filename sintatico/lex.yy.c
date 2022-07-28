@@ -521,7 +521,6 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "main.lex"
 #line 3 "main.lex"
-    
     // includes
 
 #include <math.h>
@@ -537,8 +536,8 @@ int coluna = 1;
 int linhas = 1;
 
 
+#line 540 "lex.yy.c"
 #line 541 "lex.yy.c"
-#line 542 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -755,10 +754,10 @@ YY_DECL
 		}
 
 	{
-#line 32 "main.lex"
+#line 31 "main.lex"
 
 
-#line 762 "lex.yy.c"
+#line 761 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -817,7 +816,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 34 "main.lex"
+#line 33 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("underline", yytext, tabela, coluna, linhas);
@@ -827,7 +826,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 41 "main.lex"
+#line 40 "main.lex"
 {
     tabela = insere_nodo_fim("virgula", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -836,7 +835,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 49 "main.lex"
+#line 48 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("opmul", yytext, tabela, coluna, linhas);
@@ -846,7 +845,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 57 "main.lex"
+#line 56 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("opad", yytext, tabela, coluna, linhas);
@@ -856,7 +855,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 65 "main.lex"
+#line 64 "main.lex"
 {
     yylval.fval = atof(yytext);
     tabela = insere_nodo_fim("float", yytext, tabela, coluna, linhas);
@@ -866,7 +865,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 72 "main.lex"
+#line 71 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("ponto", yytext, tabela, coluna, linhas);
@@ -876,7 +875,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 78 "main.lex"
+#line 77 "main.lex"
 {
     tabela = insere_nodo_fim("ponto_ponto", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -885,7 +884,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 83 "main.lex"
+#line 82 "main.lex"
 {
     tabela = insere_nodo_fim("pontoVirgula", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -894,7 +893,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 89 "main.lex"
+#line 88 "main.lex"
 {
     tabela = insere_nodo_fim("doisPontos", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -903,7 +902,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 95 "main.lex"
+#line 94 "main.lex"
 {
     tabela = insere_nodo_fim("return", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -912,7 +911,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 101 "main.lex"
+#line 100 "main.lex"
 { 
     tabela = insere_nodo_fim("for", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -921,7 +920,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 107 "main.lex"
+#line 106 "main.lex"
 {
     tabela = insere_nodo_fim("read", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -930,7 +929,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 112 "main.lex"
+#line 111 "main.lex"
 {
     tabela = insere_nodo_fim("progam", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -939,7 +938,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 118 "main.lex"
+#line 117 "main.lex"
 {
     tabela = insere_nodo_fim("print", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -948,7 +947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 124 "main.lex"
+#line 123 "main.lex"
 {
     tabela = insere_nodo_fim("boolean", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -957,7 +956,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 130 "main.lex"
+#line 129 "main.lex"
 {
     {
     tabela = insere_nodo_fim("array", yytext, tabela, coluna, linhas);
@@ -968,7 +967,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 137 "main.lex"
+#line 136 "main.lex"
 {
     tabela = insere_nodo_fim("real", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -979,7 +978,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 145 "main.lex"
+#line 144 "main.lex"
 {
     tabela = insere_nodo_fim("integer", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -988,7 +987,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 151 "main.lex"
+#line 150 "main.lex"
 {
     tabela = insere_nodo_fim("do", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -997,7 +996,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 157 "main.lex"
+#line 156 "main.lex"
 {
     tabela = insere_nodo_fim("while", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1006,7 +1005,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 163 "main.lex"
+#line 162 "main.lex"
 {
     tabela = insere_nodo_fim("var", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1015,7 +1014,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 169 "main.lex"
+#line 168 "main.lex"
 {
     yylval.ival = 0;
     tabela = insere_nodo_fim("false", yytext, tabela, coluna, linhas);
@@ -1025,7 +1024,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 176 "main.lex"
+#line 175 "main.lex"
 {
     yylval.ival = 1;
     tabela = insere_nodo_fim("true", yytext, tabela, coluna, linhas);
@@ -1035,7 +1034,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 185 "main.lex"
+#line 184 "main.lex"
 {
     tabela = insere_nodo_fim("if", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1044,7 +1043,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 191 "main.lex"
+#line 190 "main.lex"
 {
     tabela = insere_nodo_fim("else", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1053,7 +1052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 197 "main.lex"
+#line 196 "main.lex"
 {
     tabela = insere_nodo_fim("of", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1062,7 +1061,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 203 "main.lex"
+#line 202 "main.lex"
 {
     tabela = insere_nodo_fim("then", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1071,7 +1070,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 209 "main.lex"
+#line 208 "main.lex"
 {
     tabela = insere_nodo_fim("begin", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1080,7 +1079,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 215 "main.lex"
+#line 214 "main.lex"
 {
     tabela = insere_nodo_fim("end", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
@@ -1089,7 +1088,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 222 "main.lex"
+#line 221 "main.lex"
 {
     tabela = insere_nodo_fim("abreChave",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
@@ -1098,7 +1097,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 228 "main.lex"
+#line 227 "main.lex"
 {
     tabela = insere_nodo_fim("fechaChave",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
@@ -1107,7 +1106,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 234 "main.lex"
+#line 233 "main.lex"
 {
     tabela = insere_nodo_fim("abreColchete",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
@@ -1116,7 +1115,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 240 "main.lex"
+#line 239 "main.lex"
 {
     tabela = insere_nodo_fim("fechaColchete",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
@@ -1125,7 +1124,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 246 "main.lex"
+#line 245 "main.lex"
 {
     tabela = insere_nodo_fim("abreParentese",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
@@ -1134,7 +1133,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 252 "main.lex"
+#line 251 "main.lex"
 {
     tabela = insere_nodo_fim("fechaParentese",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
@@ -1143,7 +1142,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 258 "main.lex"
+#line 257 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("oprelacional",yytext,tabela,coluna,linhas);
@@ -1153,7 +1152,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 265 "main.lex"
+#line 264 "main.lex"
 {
     yylval.ival = atoi(yytext);
     tabela = insere_nodo_fim("inteiro",yytext,tabela,coluna,linhas);
@@ -1163,7 +1162,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 272 "main.lex"
+#line 271 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("atribuicao",yytext,tabela,coluna,linhas);
@@ -1173,7 +1172,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 279 "main.lex"
+#line 278 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("palavra",yytext,tabela,coluna,linhas);
@@ -1183,7 +1182,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 286 "main.lex"
+#line 285 "main.lex"
 {
     yylval.cval = yytext;
     tabela = insere_nodo_fim("aspas",yytext,tabela,coluna,linhas);
@@ -1193,14 +1192,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 297 "main.lex"
+#line 296 "main.lex"
 {
 	coluna+=strlen(yytext);
 }    
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 301 "main.lex"
+#line 300 "main.lex"
 {
     tabela = insere_nodo_fim("string",yytext,tabela,coluna,linhas);
 	coluna+=strlen(yytext);
@@ -1209,7 +1208,7 @@ YY_RULE_SETUP
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 306 "main.lex"
+#line 305 "main.lex"
 {
 	linhas++;
 	coluna = 1;
@@ -1217,12 +1216,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 311 "main.lex"
+#line 310 "main.lex"
 
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 312 "main.lex"
+#line 311 "main.lex"
 {
 	 printf( "Caracter não reconhecido: %s na linha %d e coluna %d\n", yytext, linhas, coluna );
      coluna+=strlen(yytext);
@@ -1230,10 +1229,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 317 "main.lex"
+#line 316 "main.lex"
 ECHO;
 	YY_BREAK
-#line 1237 "lex.yy.c"
+#line 1236 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2238,7 +2237,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 317 "main.lex"
+#line 316 "main.lex"
 
 
 
