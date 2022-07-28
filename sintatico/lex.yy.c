@@ -837,7 +837,7 @@ case 3:
 YY_RULE_SETUP
 #line 48 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("opmul", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_OPMUL;
@@ -847,7 +847,7 @@ case 4:
 YY_RULE_SETUP
 #line 56 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("opad", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_OPAD;
@@ -867,7 +867,7 @@ case 6:
 YY_RULE_SETUP
 #line 71 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("ponto", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_PONTO;
@@ -1144,7 +1144,7 @@ case 36:
 YY_RULE_SETUP
 #line 257 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("oprelacional",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_OPRELACIONAL;
@@ -1164,7 +1164,7 @@ case 38:
 YY_RULE_SETUP
 #line 271 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("atribuicao",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ATRIBUICAO;
@@ -1174,7 +1174,7 @@ case 39:
 YY_RULE_SETUP
 #line 278 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("palavra",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ID;
@@ -1184,7 +1184,7 @@ case 40:
 YY_RULE_SETUP
 #line 285 "main.lex"
 {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("aspas",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ASPAS;

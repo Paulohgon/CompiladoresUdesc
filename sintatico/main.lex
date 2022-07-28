@@ -46,7 +46,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 
 
 {OPMUL} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("opmul", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_OPMUL;
@@ -54,7 +54,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 
 
 {OPAD} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("opad", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_OPAD;
@@ -69,7 +69,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 }
 
 {PONTO} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("ponto", yytext, tabela, coluna, linhas);
     coluna += strlen(yytext);
     return T_PONTO;
@@ -255,7 +255,7 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 }
 
 {OPRELACIONAL} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("oprelacional",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_OPRELACIONAL;
@@ -269,21 +269,21 @@ OPRELACIONAL "<"|">"|"<="|">="|"="|"<>"
 }
 
 {ATRIBUICAO} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("atribuicao",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ATRIBUICAO;
 }
 
 {ID} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("palavra",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ID;
 }
 
 {ASPAS} {
-    yylval.cval = yytext;
+    yylval.cval = strdup(yytext);
     tabela = insere_nodo_fim("aspas",yytext,tabela,coluna,linhas);
     coluna+=strlen(yytext);
     return T_ASPAS;

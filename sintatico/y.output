@@ -1,0 +1,1176 @@
+Não terminais inúteis na gramática
+
+    tipo
+    tipoAgregado
+
+
+Terminais sem uso na gramática
+
+    T_ASPAS
+    T_ARRAY
+    T_OF
+    T_PONTO_PONTO
+    T_UNDERLINE
+    T_RETURN
+    T_READ
+    T_PALAVRA
+
+
+Regras inúteis na gramática
+
+   51 tipo: tipoAgregado
+   52     | tipoSimples
+
+   53 tipoAgregado: T_ARRAY T_ABRECOLCHETE literal T_DOISPONTOS literal T_FECHACOLCHETE T_OF tipo
+
+
+Estado 6 conflitos: 1 de deslocamento/redução
+Estado 15 conflitos: 6 de deslocamento/redução
+Estado 42 conflitos: 1 de deslocamento/redução
+Estado 76 conflitos: 1 de deslocamento/redução
+
+
+Gramática
+
+    0 $accept: programa $end
+
+    1 $@1: %empty
+
+    2 programa: T_PROGRAM $@1 T_ID T_PONTOVIRGULA corpo T_PONTO
+
+    3 corpo: declaracoes comandoComposto
+
+    4 comandoComposto: T_BEGIN listaComandos T_END
+
+    5 listaComandos: %empty
+    6              | comando T_PONTOVIRGULA
+    7              | listaComandos comando T_PONTOVIRGULA
+
+    8 comando: atribuicao
+    9        | condicional
+   10        | comandoComposto
+   11        | comandoFor
+   12        | comandoWhile
+   13        | comandoPrint
+
+   14 atribuicao: T_ID T_ATRIBUICAO expressao
+
+   15 declaracoes: %empty
+   16            | declaracao T_PONTOVIRGULA
+   17            | declaracoes declaracao T_PONTOVIRGULA
+
+   18 condicional: T_IF expressao T_THEN comando condicionalAux
+
+   19 condicionalAux: %empty
+   20               | T_ELSE comando
+
+   21 variavel: T_ID seletor
+
+   22 expressao: expressaoSimples
+   23          | expressaoSimples T_OPRELACIONAL expressaoSimples
+
+   24 declaracao: declaracaoVariavel
+
+   25 seletor: seletor T_ABRECOLCHETE expressao T_FECHACOLCHETE
+   26        | %empty
+   27        | T_ABRECOLCHETE expressao T_FECHACOLCHETE
+
+   28 declaracaoVariavel: T_VAR listaIds T_DOISPONTOS tipoSimples
+
+   29 listaIds: T_ID
+   30         | listaIds T_VIRGULA T_ID
+
+   31 tipoSimples: T_INTEGER
+   32            | T_REAL
+   33            | T_BOOLEAN
+
+   34 comandoPrint: T_PRINT T_ID
+
+   35 literal: boolLit
+   36        | intLit
+   37        | floatLit
+
+   38 boolLit: T_TRUE
+   39        | T_FALSE
+
+   40 intLit: T_INT
+
+   41 floatLit: T_FLOAT
+
+   42 expressaoSimples: expressaoSimples T_OPAD termo
+   43                 | termo
+
+   44 termo: termo T_OPMUL fator
+   45      | fator
+
+   46 fator: variavel
+   47      | literal
+   48      | T_ABREPARENTESE expressao T_FECHAPARENTESE
+
+   49 comandoWhile: T_WHILE expressao T_DO comando
+
+   50 comandoFor: T_FOR atribuicao expressaoSimples atribuicao T_ABRECHAVE expressao T_FECHACHAVE
+
+
+Terminais, com as regras onde eles aparecem
+
+    $end (0) 0
+    error (256)
+    T_PRINT (258) 34
+    T_FECHACHAVE (259) 50
+    T_FECHACOLCHETE (260) 25 27
+    T_FECHAPARENTESE (261) 48
+    T_ASPAS (262)
+    T_ARRAY (263)
+    T_PROGRAM (264) 2
+    T_OPAD <cval> (265) 42
+    T_ATRIBUICAO <cval> (266) 14
+    T_OPMUL <cval> (267) 44
+    T_OPRELACIONAL <cval> (268) 23
+    T_IF (269) 18
+    T_ELSE (270) 20
+    T_OF (271)
+    T_THEN (272) 18
+    T_BEGIN (273) 4
+    T_END (274) 4
+    T_PONTO (275) 2
+    T_PONTO_PONTO (276)
+    T_PONTOVIRGULA (277) 2 6 7 16 17
+    T_DOISPONTOS (278) 28
+    T_ABREPARENTESE (279) 48
+    T_ABRECOLCHETE (280) 25 27
+    T_ABRECHAVE (281) 50
+    T_VIRGULA (282) 30
+    T_UNDERLINE (283)
+    T_DO (284) 49
+    T_RETURN (285)
+    T_VAR (286) 28
+    T_WHILE (287) 49
+    T_READ (288)
+    T_FOR (289) 50
+    T_PALAVRA <cval> (290)
+    T_BOOLEAN <cval> (291) 33
+    T_REAL <cval> (292) 32
+    T_INTEGER <cval> (293) 31
+    T_ID <cval> (294) 2 14 21 29 30 34
+    T_FLOAT <fval> (295) 41
+    T_TRUE <ival> (296) 38
+    T_FALSE <ival> (297) 39
+    T_INT <ival> (298) 40
+
+
+Não terminais com as regras onde eles aparecem
+
+    $accept (44)
+        à esquerda: 0
+    programa (45)
+        à esquerda: 2
+        à direita: 0
+    $@1 (46)
+        à esquerda: 1
+        à direita: 2
+    corpo (47)
+        à esquerda: 3
+        à direita: 2
+    comandoComposto (48)
+        à esquerda: 4
+        à direita: 3 10
+    listaComandos (49)
+        à esquerda: 5 6 7
+        à direita: 4 7
+    comando (50)
+        à esquerda: 8 9 10 11 12 13
+        à direita: 6 7 18 20 49
+    atribuicao <cval> (51)
+        à esquerda: 14
+        à direita: 8 50
+    declaracoes (52)
+        à esquerda: 15 16 17
+        à direita: 3 17
+    condicional (53)
+        à esquerda: 18
+        à direita: 9
+    condicionalAux (54)
+        à esquerda: 19 20
+        à direita: 18
+    variavel <cval> (55)
+        à esquerda: 21
+        à direita: 46
+    expressao (56)
+        à esquerda: 22 23
+        à direita: 14 18 25 27 48 49 50
+    declaracao (57)
+        à esquerda: 24
+        à direita: 16 17
+    seletor (58)
+        à esquerda: 25 26 27
+        à direita: 21 25
+    declaracaoVariavel (59)
+        à esquerda: 28
+        à direita: 24
+    listaIds <cval> (60)
+        à esquerda: 29 30
+        à direita: 28 30
+    tipoSimples <cval> (61)
+        à esquerda: 31 32 33
+        à direita: 28
+    comandoPrint (62)
+        à esquerda: 34
+        à direita: 13
+    literal (63)
+        à esquerda: 35 36 37
+        à direita: 47
+    boolLit (64)
+        à esquerda: 38 39
+        à direita: 35
+    intLit <ival> (65)
+        à esquerda: 40
+        à direita: 36
+    floatLit (66)
+        à esquerda: 41
+        à direita: 37
+    expressaoSimples <cval> (67)
+        à esquerda: 42 43
+        à direita: 22 23 42 50
+    termo <cval> (68)
+        à esquerda: 44 45
+        à direita: 42 43 44
+    fator (69)
+        à esquerda: 46 47 48
+        à direita: 44 45
+    comandoWhile (70)
+        à esquerda: 49
+        à direita: 12
+    comandoFor (71)
+        à esquerda: 50
+        à direita: 11
+
+
+Estado 0
+
+    0 $accept: . programa $end
+
+    T_PROGRAM  deslocar, e ir ao estado 1
+
+    programa  ir ao estado 2
+
+
+Estado 1
+
+    2 programa: T_PROGRAM . $@1 T_ID T_PONTOVIRGULA corpo T_PONTO
+
+    $padrão  reduzir usando a regra 1 ($@1)
+
+    $@1  ir ao estado 3
+
+
+Estado 2
+
+    0 $accept: programa . $end
+
+    $end  deslocar, e ir ao estado 4
+
+
+Estado 3
+
+    2 programa: T_PROGRAM $@1 . T_ID T_PONTOVIRGULA corpo T_PONTO
+
+    T_ID  deslocar, e ir ao estado 5
+
+
+Estado 4
+
+    0 $accept: programa $end .
+
+    $padrão  aceitar
+
+
+Estado 5
+
+    2 programa: T_PROGRAM $@1 T_ID . T_PONTOVIRGULA corpo T_PONTO
+
+    T_PONTOVIRGULA  deslocar, e ir ao estado 6
+
+
+Estado 6
+
+    2 programa: T_PROGRAM $@1 T_ID T_PONTOVIRGULA . corpo T_PONTO
+
+    T_VAR  deslocar, e ir ao estado 7
+
+    T_VAR     [reduzir usando a regra 15 (declaracoes)]
+    $padrão  reduzir usando a regra 15 (declaracoes)
+
+    corpo               ir ao estado 8
+    declaracoes         ir ao estado 9
+    declaracao          ir ao estado 10
+    declaracaoVariavel  ir ao estado 11
+
+
+Estado 7
+
+   28 declaracaoVariavel: T_VAR . listaIds T_DOISPONTOS tipoSimples
+
+    T_ID  deslocar, e ir ao estado 12
+
+    listaIds  ir ao estado 13
+
+
+Estado 8
+
+    2 programa: T_PROGRAM $@1 T_ID T_PONTOVIRGULA corpo . T_PONTO
+
+    T_PONTO  deslocar, e ir ao estado 14
+
+
+Estado 9
+
+    3 corpo: declaracoes . comandoComposto
+   17 declaracoes: declaracoes . declaracao T_PONTOVIRGULA
+
+    T_BEGIN  deslocar, e ir ao estado 15
+    T_VAR    deslocar, e ir ao estado 7
+
+    comandoComposto     ir ao estado 16
+    declaracao          ir ao estado 17
+    declaracaoVariavel  ir ao estado 11
+
+
+Estado 10
+
+   16 declaracoes: declaracao . T_PONTOVIRGULA
+
+    T_PONTOVIRGULA  deslocar, e ir ao estado 18
+
+
+Estado 11
+
+   24 declaracao: declaracaoVariavel .
+
+    $padrão  reduzir usando a regra 24 (declaracao)
+
+
+Estado 12
+
+   29 listaIds: T_ID .
+
+    $padrão  reduzir usando a regra 29 (listaIds)
+
+
+Estado 13
+
+   28 declaracaoVariavel: T_VAR listaIds . T_DOISPONTOS tipoSimples
+   30 listaIds: listaIds . T_VIRGULA T_ID
+
+    T_DOISPONTOS  deslocar, e ir ao estado 19
+    T_VIRGULA     deslocar, e ir ao estado 20
+
+
+Estado 14
+
+    2 programa: T_PROGRAM $@1 T_ID T_PONTOVIRGULA corpo T_PONTO .
+
+    $padrão  reduzir usando a regra 2 (programa)
+
+
+Estado 15
+
+    4 comandoComposto: T_BEGIN . listaComandos T_END
+
+    T_PRINT  deslocar, e ir ao estado 21
+    T_IF     deslocar, e ir ao estado 22
+    T_BEGIN  deslocar, e ir ao estado 15
+    T_WHILE  deslocar, e ir ao estado 23
+    T_FOR    deslocar, e ir ao estado 24
+    T_ID     deslocar, e ir ao estado 25
+
+    T_PRINT   [reduzir usando a regra 5 (listaComandos)]
+    T_IF      [reduzir usando a regra 5 (listaComandos)]
+    T_BEGIN   [reduzir usando a regra 5 (listaComandos)]
+    T_WHILE   [reduzir usando a regra 5 (listaComandos)]
+    T_FOR     [reduzir usando a regra 5 (listaComandos)]
+    T_ID      [reduzir usando a regra 5 (listaComandos)]
+    $padrão  reduzir usando a regra 5 (listaComandos)
+
+    comandoComposto  ir ao estado 26
+    listaComandos    ir ao estado 27
+    comando          ir ao estado 28
+    atribuicao       ir ao estado 29
+    condicional      ir ao estado 30
+    comandoPrint     ir ao estado 31
+    comandoWhile     ir ao estado 32
+    comandoFor       ir ao estado 33
+
+
+Estado 16
+
+    3 corpo: declaracoes comandoComposto .
+
+    $padrão  reduzir usando a regra 3 (corpo)
+
+
+Estado 17
+
+   17 declaracoes: declaracoes declaracao . T_PONTOVIRGULA
+
+    T_PONTOVIRGULA  deslocar, e ir ao estado 34
+
+
+Estado 18
+
+   16 declaracoes: declaracao T_PONTOVIRGULA .
+
+    $padrão  reduzir usando a regra 16 (declaracoes)
+
+
+Estado 19
+
+   28 declaracaoVariavel: T_VAR listaIds T_DOISPONTOS . tipoSimples
+
+    T_BOOLEAN  deslocar, e ir ao estado 35
+    T_REAL     deslocar, e ir ao estado 36
+    T_INTEGER  deslocar, e ir ao estado 37
+
+    tipoSimples  ir ao estado 38
+
+
+Estado 20
+
+   30 listaIds: listaIds T_VIRGULA . T_ID
+
+    T_ID  deslocar, e ir ao estado 39
+
+
+Estado 21
+
+   34 comandoPrint: T_PRINT . T_ID
+
+    T_ID  deslocar, e ir ao estado 40
+
+
+Estado 22
+
+   18 condicional: T_IF . expressao T_THEN comando condicionalAux
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 48
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 23
+
+   49 comandoWhile: T_WHILE . expressao T_DO comando
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 56
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 24
+
+   50 comandoFor: T_FOR . atribuicao expressaoSimples atribuicao T_ABRECHAVE expressao T_FECHACHAVE
+
+    T_ID  deslocar, e ir ao estado 25
+
+    atribuicao  ir ao estado 57
+
+
+Estado 25
+
+   14 atribuicao: T_ID . T_ATRIBUICAO expressao
+
+    T_ATRIBUICAO  deslocar, e ir ao estado 58
+
+
+Estado 26
+
+   10 comando: comandoComposto .
+
+    $padrão  reduzir usando a regra 10 (comando)
+
+
+Estado 27
+
+    4 comandoComposto: T_BEGIN listaComandos . T_END
+    7 listaComandos: listaComandos . comando T_PONTOVIRGULA
+
+    T_PRINT  deslocar, e ir ao estado 21
+    T_IF     deslocar, e ir ao estado 22
+    T_BEGIN  deslocar, e ir ao estado 15
+    T_END    deslocar, e ir ao estado 59
+    T_WHILE  deslocar, e ir ao estado 23
+    T_FOR    deslocar, e ir ao estado 24
+    T_ID     deslocar, e ir ao estado 25
+
+    comandoComposto  ir ao estado 26
+    comando          ir ao estado 60
+    atribuicao       ir ao estado 29
+    condicional      ir ao estado 30
+    comandoPrint     ir ao estado 31
+    comandoWhile     ir ao estado 32
+    comandoFor       ir ao estado 33
+
+
+Estado 28
+
+    6 listaComandos: comando . T_PONTOVIRGULA
+
+    T_PONTOVIRGULA  deslocar, e ir ao estado 61
+
+
+Estado 29
+
+    8 comando: atribuicao .
+
+    $padrão  reduzir usando a regra 8 (comando)
+
+
+Estado 30
+
+    9 comando: condicional .
+
+    $padrão  reduzir usando a regra 9 (comando)
+
+
+Estado 31
+
+   13 comando: comandoPrint .
+
+    $padrão  reduzir usando a regra 13 (comando)
+
+
+Estado 32
+
+   12 comando: comandoWhile .
+
+    $padrão  reduzir usando a regra 12 (comando)
+
+
+Estado 33
+
+   11 comando: comandoFor .
+
+    $padrão  reduzir usando a regra 11 (comando)
+
+
+Estado 34
+
+   17 declaracoes: declaracoes declaracao T_PONTOVIRGULA .
+
+    $padrão  reduzir usando a regra 17 (declaracoes)
+
+
+Estado 35
+
+   33 tipoSimples: T_BOOLEAN .
+
+    $padrão  reduzir usando a regra 33 (tipoSimples)
+
+
+Estado 36
+
+   32 tipoSimples: T_REAL .
+
+    $padrão  reduzir usando a regra 32 (tipoSimples)
+
+
+Estado 37
+
+   31 tipoSimples: T_INTEGER .
+
+    $padrão  reduzir usando a regra 31 (tipoSimples)
+
+
+Estado 38
+
+   28 declaracaoVariavel: T_VAR listaIds T_DOISPONTOS tipoSimples .
+
+    $padrão  reduzir usando a regra 28 (declaracaoVariavel)
+
+
+Estado 39
+
+   30 listaIds: listaIds T_VIRGULA T_ID .
+
+    $padrão  reduzir usando a regra 30 (listaIds)
+
+
+Estado 40
+
+   34 comandoPrint: T_PRINT T_ID .
+
+    $padrão  reduzir usando a regra 34 (comandoPrint)
+
+
+Estado 41
+
+   48 fator: T_ABREPARENTESE . expressao T_FECHAPARENTESE
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 62
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 42
+
+   21 variavel: T_ID . seletor
+
+    T_ABRECOLCHETE  deslocar, e ir ao estado 63
+
+    T_ABRECOLCHETE  [reduzir usando a regra 26 (seletor)]
+    $padrão        reduzir usando a regra 26 (seletor)
+
+    seletor  ir ao estado 64
+
+
+Estado 43
+
+   41 floatLit: T_FLOAT .
+
+    $padrão  reduzir usando a regra 41 (floatLit)
+
+
+Estado 44
+
+   38 boolLit: T_TRUE .
+
+    $padrão  reduzir usando a regra 38 (boolLit)
+
+
+Estado 45
+
+   39 boolLit: T_FALSE .
+
+    $padrão  reduzir usando a regra 39 (boolLit)
+
+
+Estado 46
+
+   40 intLit: T_INT .
+
+    $padrão  reduzir usando a regra 40 (intLit)
+
+
+Estado 47
+
+   46 fator: variavel .
+
+    $padrão  reduzir usando a regra 46 (fator)
+
+
+Estado 48
+
+   18 condicional: T_IF expressao . T_THEN comando condicionalAux
+
+    T_THEN  deslocar, e ir ao estado 65
+
+
+Estado 49
+
+   47 fator: literal .
+
+    $padrão  reduzir usando a regra 47 (fator)
+
+
+Estado 50
+
+   35 literal: boolLit .
+
+    $padrão  reduzir usando a regra 35 (literal)
+
+
+Estado 51
+
+   36 literal: intLit .
+
+    $padrão  reduzir usando a regra 36 (literal)
+
+
+Estado 52
+
+   37 literal: floatLit .
+
+    $padrão  reduzir usando a regra 37 (literal)
+
+
+Estado 53
+
+   22 expressao: expressaoSimples .
+   23          | expressaoSimples . T_OPRELACIONAL expressaoSimples
+   42 expressaoSimples: expressaoSimples . T_OPAD termo
+
+    T_OPAD          deslocar, e ir ao estado 66
+    T_OPRELACIONAL  deslocar, e ir ao estado 67
+
+    $padrão  reduzir usando a regra 22 (expressao)
+
+
+Estado 54
+
+   43 expressaoSimples: termo .
+   44 termo: termo . T_OPMUL fator
+
+    T_OPMUL  deslocar, e ir ao estado 68
+
+    $padrão  reduzir usando a regra 43 (expressaoSimples)
+
+
+Estado 55
+
+   45 termo: fator .
+
+    $padrão  reduzir usando a regra 45 (termo)
+
+
+Estado 56
+
+   49 comandoWhile: T_WHILE expressao . T_DO comando
+
+    T_DO  deslocar, e ir ao estado 69
+
+
+Estado 57
+
+   50 comandoFor: T_FOR atribuicao . expressaoSimples atribuicao T_ABRECHAVE expressao T_FECHACHAVE
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 70
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 58
+
+   14 atribuicao: T_ID T_ATRIBUICAO . expressao
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 71
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 59
+
+    4 comandoComposto: T_BEGIN listaComandos T_END .
+
+    $padrão  reduzir usando a regra 4 (comandoComposto)
+
+
+Estado 60
+
+    7 listaComandos: listaComandos comando . T_PONTOVIRGULA
+
+    T_PONTOVIRGULA  deslocar, e ir ao estado 72
+
+
+Estado 61
+
+    6 listaComandos: comando T_PONTOVIRGULA .
+
+    $padrão  reduzir usando a regra 6 (listaComandos)
+
+
+Estado 62
+
+   48 fator: T_ABREPARENTESE expressao . T_FECHAPARENTESE
+
+    T_FECHAPARENTESE  deslocar, e ir ao estado 73
+
+
+Estado 63
+
+   27 seletor: T_ABRECOLCHETE . expressao T_FECHACOLCHETE
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 74
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 64
+
+   21 variavel: T_ID seletor .
+   25 seletor: seletor . T_ABRECOLCHETE expressao T_FECHACOLCHETE
+
+    T_ABRECOLCHETE  deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 21 (variavel)
+
+
+Estado 65
+
+   18 condicional: T_IF expressao T_THEN . comando condicionalAux
+
+    T_PRINT  deslocar, e ir ao estado 21
+    T_IF     deslocar, e ir ao estado 22
+    T_BEGIN  deslocar, e ir ao estado 15
+    T_WHILE  deslocar, e ir ao estado 23
+    T_FOR    deslocar, e ir ao estado 24
+    T_ID     deslocar, e ir ao estado 25
+
+    comandoComposto  ir ao estado 26
+    comando          ir ao estado 76
+    atribuicao       ir ao estado 29
+    condicional      ir ao estado 30
+    comandoPrint     ir ao estado 31
+    comandoWhile     ir ao estado 32
+    comandoFor       ir ao estado 33
+
+
+Estado 66
+
+   42 expressaoSimples: expressaoSimples T_OPAD . termo
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel  ir ao estado 47
+    literal   ir ao estado 49
+    boolLit   ir ao estado 50
+    intLit    ir ao estado 51
+    floatLit  ir ao estado 52
+    termo     ir ao estado 77
+    fator     ir ao estado 55
+
+
+Estado 67
+
+   23 expressao: expressaoSimples T_OPRELACIONAL . expressaoSimples
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 78
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 68
+
+   44 termo: termo T_OPMUL . fator
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel  ir ao estado 47
+    literal   ir ao estado 49
+    boolLit   ir ao estado 50
+    intLit    ir ao estado 51
+    floatLit  ir ao estado 52
+    fator     ir ao estado 79
+
+
+Estado 69
+
+   49 comandoWhile: T_WHILE expressao T_DO . comando
+
+    T_PRINT  deslocar, e ir ao estado 21
+    T_IF     deslocar, e ir ao estado 22
+    T_BEGIN  deslocar, e ir ao estado 15
+    T_WHILE  deslocar, e ir ao estado 23
+    T_FOR    deslocar, e ir ao estado 24
+    T_ID     deslocar, e ir ao estado 25
+
+    comandoComposto  ir ao estado 26
+    comando          ir ao estado 80
+    atribuicao       ir ao estado 29
+    condicional      ir ao estado 30
+    comandoPrint     ir ao estado 31
+    comandoWhile     ir ao estado 32
+    comandoFor       ir ao estado 33
+
+
+Estado 70
+
+   42 expressaoSimples: expressaoSimples . T_OPAD termo
+   50 comandoFor: T_FOR atribuicao expressaoSimples . atribuicao T_ABRECHAVE expressao T_FECHACHAVE
+
+    T_OPAD  deslocar, e ir ao estado 66
+    T_ID    deslocar, e ir ao estado 25
+
+    atribuicao  ir ao estado 81
+
+
+Estado 71
+
+   14 atribuicao: T_ID T_ATRIBUICAO expressao .
+
+    $padrão  reduzir usando a regra 14 (atribuicao)
+
+
+Estado 72
+
+    7 listaComandos: listaComandos comando T_PONTOVIRGULA .
+
+    $padrão  reduzir usando a regra 7 (listaComandos)
+
+
+Estado 73
+
+   48 fator: T_ABREPARENTESE expressao T_FECHAPARENTESE .
+
+    $padrão  reduzir usando a regra 48 (fator)
+
+
+Estado 74
+
+   27 seletor: T_ABRECOLCHETE expressao . T_FECHACOLCHETE
+
+    T_FECHACOLCHETE  deslocar, e ir ao estado 82
+
+
+Estado 75
+
+   25 seletor: seletor T_ABRECOLCHETE . expressao T_FECHACOLCHETE
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 83
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 76
+
+   18 condicional: T_IF expressao T_THEN comando . condicionalAux
+
+    T_ELSE  deslocar, e ir ao estado 84
+
+    T_ELSE    [reduzir usando a regra 19 (condicionalAux)]
+    $padrão  reduzir usando a regra 19 (condicionalAux)
+
+    condicionalAux  ir ao estado 85
+
+
+Estado 77
+
+   42 expressaoSimples: expressaoSimples T_OPAD termo .
+   44 termo: termo . T_OPMUL fator
+
+    T_OPMUL  deslocar, e ir ao estado 68
+
+    $padrão  reduzir usando a regra 42 (expressaoSimples)
+
+
+Estado 78
+
+   23 expressao: expressaoSimples T_OPRELACIONAL expressaoSimples .
+   42 expressaoSimples: expressaoSimples . T_OPAD termo
+
+    T_OPAD  deslocar, e ir ao estado 66
+
+    $padrão  reduzir usando a regra 23 (expressao)
+
+
+Estado 79
+
+   44 termo: termo T_OPMUL fator .
+
+    $padrão  reduzir usando a regra 44 (termo)
+
+
+Estado 80
+
+   49 comandoWhile: T_WHILE expressao T_DO comando .
+
+    $padrão  reduzir usando a regra 49 (comandoWhile)
+
+
+Estado 81
+
+   50 comandoFor: T_FOR atribuicao expressaoSimples atribuicao . T_ABRECHAVE expressao T_FECHACHAVE
+
+    T_ABRECHAVE  deslocar, e ir ao estado 86
+
+
+Estado 82
+
+   27 seletor: T_ABRECOLCHETE expressao T_FECHACOLCHETE .
+
+    $padrão  reduzir usando a regra 27 (seletor)
+
+
+Estado 83
+
+   25 seletor: seletor T_ABRECOLCHETE expressao . T_FECHACOLCHETE
+
+    T_FECHACOLCHETE  deslocar, e ir ao estado 87
+
+
+Estado 84
+
+   20 condicionalAux: T_ELSE . comando
+
+    T_PRINT  deslocar, e ir ao estado 21
+    T_IF     deslocar, e ir ao estado 22
+    T_BEGIN  deslocar, e ir ao estado 15
+    T_WHILE  deslocar, e ir ao estado 23
+    T_FOR    deslocar, e ir ao estado 24
+    T_ID     deslocar, e ir ao estado 25
+
+    comandoComposto  ir ao estado 26
+    comando          ir ao estado 88
+    atribuicao       ir ao estado 29
+    condicional      ir ao estado 30
+    comandoPrint     ir ao estado 31
+    comandoWhile     ir ao estado 32
+    comandoFor       ir ao estado 33
+
+
+Estado 85
+
+   18 condicional: T_IF expressao T_THEN comando condicionalAux .
+
+    $padrão  reduzir usando a regra 18 (condicional)
+
+
+Estado 86
+
+   50 comandoFor: T_FOR atribuicao expressaoSimples atribuicao T_ABRECHAVE . expressao T_FECHACHAVE
+
+    T_ABREPARENTESE  deslocar, e ir ao estado 41
+    T_ID             deslocar, e ir ao estado 42
+    T_FLOAT          deslocar, e ir ao estado 43
+    T_TRUE           deslocar, e ir ao estado 44
+    T_FALSE          deslocar, e ir ao estado 45
+    T_INT            deslocar, e ir ao estado 46
+
+    variavel          ir ao estado 47
+    expressao         ir ao estado 89
+    literal           ir ao estado 49
+    boolLit           ir ao estado 50
+    intLit            ir ao estado 51
+    floatLit          ir ao estado 52
+    expressaoSimples  ir ao estado 53
+    termo             ir ao estado 54
+    fator             ir ao estado 55
+
+
+Estado 87
+
+   25 seletor: seletor T_ABRECOLCHETE expressao T_FECHACOLCHETE .
+
+    $padrão  reduzir usando a regra 25 (seletor)
+
+
+Estado 88
+
+   20 condicionalAux: T_ELSE comando .
+
+    $padrão  reduzir usando a regra 20 (condicionalAux)
+
+
+Estado 89
+
+   50 comandoFor: T_FOR atribuicao expressaoSimples atribuicao T_ABRECHAVE expressao . T_FECHACHAVE
+
+    T_FECHACHAVE  deslocar, e ir ao estado 90
+
+
+Estado 90
+
+   50 comandoFor: T_FOR atribuicao expressaoSimples atribuicao T_ABRECHAVE expressao T_FECHACHAVE .
+
+    $padrão  reduzir usando a regra 50 (comandoFor)

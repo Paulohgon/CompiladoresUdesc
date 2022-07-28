@@ -68,13 +68,13 @@ void defineVar(char * name, int type);
 %token T_INT
 
 
-%type<cval> T_PALAVRA T_BOOLEAN T_REAL T_INTEGER T_ID T_OPAD T_OPMUL T_ATRIBUICAO T_OPRELACIONAL tipoSimples listaIds expressaoSimples
+%type<cval> T_PALAVRA termo  T_BOOLEAN T_REAL T_INTEGER T_ID T_OPAD T_OPMUL variavel T_ATRIBUICAO T_OPRELACIONAL tipoSimples listaIds atribuicao expressaoSimples
 %type<fval> T_FLOAT
 %type<ival> T_TRUE T_FALSE T_INT intLit
 
 %start programa
 %%
-programa: T_PROGRAM {generateFooter();} T_ID T_PONTOVIRGULA corpo T_PONTO {generateHeader();}
+programa: T_PROGRAM {generateHeader();} T_ID T_PONTOVIRGULA corpo T_PONTO {generateFooter();}
 ;
 
 corpo: declaracoes comandoComposto {printf("corpo\n");}
@@ -94,9 +94,10 @@ comando: atribuicao {printf("comando\n");}
         | comandoComposto   {printf("comando\n");}
         | comandoFor    {printf("comando\n");}
         | comandoWhile  {printf("comando\n");}
+        | comandoPrint {}
         ;
 
-atribuicao: variavel T_ATRIBUICAO expressao     {}
+atribuicao: T_ID T_ATRIBUICAO expressao     {generateAtribui($1);}
 ;
 
 declaracoes: {printf("declaracoes\n");}
@@ -129,24 +130,23 @@ seletor: seletor T_ABRECOLCHETE expressao T_FECHACOLCHETE       {printf("seletor
 declaracaoVariavel: T_VAR listaIds T_DOISPONTOS tipoSimples   {printf("\n\n\n");printf($2);printf("\n\n\n");}
 ;
 
-
-listaIds: T_ID      {printf("listaIds\n");}
-        | listaIds T_VIRGULA T_ID   {printf("listaIds\n");}
+listaIds: T_ID      {}
+        | listaIds T_VIRGULA T_ID   {}
         ;
 
-tipo: tipoAgregado  {printf("tipo\n");}
-    | tipoSimples   {printf("tipo\n");}
+tipo:tipoSimples   {printf("tipo\n");}
     ;
 
 tipoSimples: T_INTEGER  {printf("tipoSimples\n");}
-            |T_REAL {printf("sim\n\n\n");printf($1);printf("\n\n\n");}
+            |T_REAL {printf("tiposimples");}
             |T_BOOLEAN  {printf("tipoSimples\n");}
             ;
 
 
-
-tipoAgregado: T_ARRAY T_ABRECOLCHETE literal T_DOISPONTOS literal T_FECHACOLCHETE T_OF tipo     {printf("tipoAgregado\n");}
+comandoPrint:  T_PRINT T_ID {printnoj($2);}
 ;
+
+
 
 
 literal: boolLit    {printf("literal\n");}
@@ -154,21 +154,21 @@ literal: boolLit    {printf("literal\n");}
         | floatLit  {printf("literal\n");}
         ;
 
-boolLit: T_TRUE {}
-        |T_FALSE    {}
+boolLit: T_TRUE {saveInt($1);}
+        |T_FALSE    {saveInt($1);}
         ;
 
-intLit: T_INT   {tabela=insere_nodo_fim("T_INT",$1,tabela, int 0,int 0)}
+intLit: T_INT   {saveInt($1);}
 ;
 
-floatLit: T_FLOAT   {printf("floatLit\n");}
+floatLit: T_FLOAT   {saveFloat($1)}
 ;
 
 expressaoSimples: expressaoSimples T_OPAD termo {saveOpadd($2);}
                 | termo     {printf("expressaoSimples\n");}
                 ;
                 
-termo: termo T_OPMUL fator  {printf("termo\n");}
+termo: termo T_OPMUL fator  {saveOpmul($2);}
     | fator     {printf("boolLit\n");}
     ;
    
@@ -199,34 +199,4 @@ void yyerror(const char* s) {
 	exit(1);
 }
 
-void generateHeader()
-{   
-    FILE * file = fopen("output.j","w+");
-    fprintf(file,".source %s","outfileName\n");
-	fprintf(file,".class public test\n.super java/lang/Object\n\n"); //code for defining class
-	
-    fprintf(file,".method public <init>()V /n");
-	fprintf(file,"aload_0\n");
-	fprintf(file,"invokenonvirtual java/lang/Object/<init>()V\n");
-	fprintf(file,"return\n");
-	fprintf(file,".end method\n\n");
-
-	fprintf(file,".method public static main([Ljava/lang/String;)V\n");
-	fprintf(file,".limit locals 100\n.limit stack 100\n");
-
-	// /* generate temporal vars for syso*/
-	// defineVar("1syso_int_var",T_INT);
-	// defineVar("1syso_float_var",T_REAL);
-
-	// /*generate line*/
-	// fprintf(file, ".line 1");
-    // fclose(file);
-}
-
-void generateFooter()
-{
-    FILE *file = fopen("output.j","a+");
-	fprintf(file,"\nreturn\n");
-	fprintf(file,".end method\n");
-}
 
